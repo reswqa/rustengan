@@ -37,7 +37,7 @@ pub fn main_loop<S, Payload>(mut state: S) -> anyhow::Result<()>
         let message = input.context("Failed to deserialize message from stdIn")?;
         state
             .handle(message, &mut std_out)
-            .context("Faild to handle message")?
+            .context("Failed to handle message")?
     }
     Ok(())
 }

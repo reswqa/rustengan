@@ -1,7 +1,9 @@
-use anyhow::{bail, Context, Ok};
-use rustengan::*;
-use serde::{Deserialize, Serialize};
 use std::io::{StdoutLock, Write};
+
+use anyhow::{bail, Context, Ok};
+use serde::{Deserialize, Serialize};
+
+use rustengan::*;
 
 struct EchoNode {
     id: usize,

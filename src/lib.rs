@@ -1,6 +1,7 @@
+use std::io::StdoutLock;
+
 use anyhow::{Context, Ok};
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
-use std::io::StdoutLock;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Message<Payload> {
@@ -24,16 +25,16 @@ pub trait Node<Payload> {
 }
 
 pub fn main_loop<S, Payload>(mut state: S) -> anyhow::Result<()>
-where
-    S: Node<Payload>,
-    Payload: DeserializeOwned,
+    where
+        S: Node<Payload>,
+        Payload: DeserializeOwned,
 {
     let std_in = std::io::stdin().lock();
     let mut std_out = std::io::stdout().lock();
     let messages = serde_json::Deserializer::from_reader(std_in).into_iter::<Message<Payload>>();
 
-    for intput in messages {
-        let message = intput.context("Failed to deserialize message from stdIn")?;
+    for input in messages {
+        let message = input.context("Failed to deserialize message from stdIn")?;
         state
             .handle(message, &mut std_out)
             .context("Faild to handle message")?
